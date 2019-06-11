@@ -1,7 +1,6 @@
 #include "model.hpp"
 
 //Note: the constructors are mostly used to provide initial values to everything; everything should be overwritten
-
 //VacuumModel class constructor, and functions 
 VacuumModel::VacuumModel()
 {
@@ -151,7 +150,7 @@ double VacuumModel::predictVelocity(double time)
 double VacuumModel::predictHeight(double time)
 {
    double a = this->acceleration;
-   double h = this->height;
+   double h = this->init_height;
 
    double pred_height = -0.5 * a * time * time + h;
    return pred_height;
@@ -165,7 +164,8 @@ void VacuumModel::evolveSystem()
    this->acceleration = this->predictAcceleration(this->time);
    this->height = this->predictHeight(this->time);
 
-   if (this->getCurrentHeight() <= 0.0)
+   
+   if (this->getCurrentHeight() < 0.0)
    {
       std::cout << "Object reached ground!\n";
       //Object is no longer moving at this point
